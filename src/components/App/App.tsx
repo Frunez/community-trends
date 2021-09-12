@@ -1,9 +1,9 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import GET_ALL_POSTS from './graphql/getAllPosts';
-import './App.css';
 import Loading from '../common/Loading';
 import ErrorMessage from '../common/ErrorMessage';
+import './App.css';
 
 function App() {
   const { loading, error, data } = useQuery(GET_ALL_POSTS, { variables: { count: 100 } });
