@@ -3,21 +3,25 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import { Bar } from "@visx/shape";
 import { AxisBottom, AxisLeft } from "@visx/axis";
 
-export type TopMonthlyTopics = [string, number][];
-
-type GraphProps = { data: TopMonthlyTopics, month: number, width: number, height: number; topRange: number; };
-
 const BAR_COLOR = '#517DF4';
 const LABEL_COLOR = '#FFFFFF';
 
 export const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-export default function Graph({ data, month, width, height, topRange }: GraphProps) {
-  const defaultMargin = { top: 0, right: 24, bottom: 24, left: 100 };
-  // bounds
-  const maxWidth = width - defaultMargin.left - defaultMargin.right;
-  const maxHeight = height - defaultMargin.top - defaultMargin.bottom;
+export type TopMonthlyTopics = [string, number][];
 
+type GraphProps = {
+  data: TopMonthlyTopics,
+  month: number,
+  width: number,
+  height: number;
+  topRange: number;
+};
+
+export default function Graph({ data, month, width, height, topRange }: GraphProps) {
+  const margin = { top: 0, right: 24, bottom: 24, left: 100 };
+  const maxWidth = width - margin.left - margin.right;
+  const maxHeight = height - margin.top - margin.bottom;
 
   const xScale = scaleBand<string>({
     range: [0, maxHeight],
@@ -33,7 +37,7 @@ export default function Graph({ data, month, width, height, topRange }: GraphPro
   });
 
   return <svg width={width} height={height}>
-    <Group left={defaultMargin.left}>
+    <Group left={margin.left}>
       {data.map((bar) => {
         const barWidth = xScale.bandwidth();
         const barHeight = (yScale(bar[1]) ?? 0);
