@@ -5,16 +5,15 @@ import { AxisBottom, AxisLeft } from "@visx/axis";
 
 export type TopMonthlyTopics = [string, number][];
 
-type GraphProps = { data: TopMonthlyTopics, month: number, width: number, height: number; topRange: number};
+type GraphProps = { data: TopMonthlyTopics, month: number, width: number, height: number; topRange: number; };
 
 const BAR_COLOR = '#517DF4';
-const LABEL_COLOR = '#000000';
-const BACKGOUND_COLOR = '#FFFFFF';
+const LABEL_COLOR = '#FFFFFF';
 
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export default function Graph({ data, month, width, height, topRange }: GraphProps) {
-  const defaultMargin = { top: 24, right: 24, bottom: 24, left: 120 };
+  const defaultMargin = { top: 0, right: 24, bottom: 24, left: 100 };
   // bounds
   const maxWidth = width - defaultMargin.left - defaultMargin.right;
   const maxHeight = height - defaultMargin.top - defaultMargin.bottom;
@@ -34,14 +33,6 @@ export default function Graph({ data, month, width, height, topRange }: GraphPro
   });
 
   return <svg width={width} height={height}>
-    <rect
-      x={0}
-      y={0}
-      width={width}
-      height={height}
-      fill={BACKGOUND_COLOR}
-    >
-    </rect>
     <Group left={defaultMargin.left}>
       {data.map((bar) => {
         const barWidth = xScale.bandwidth();
@@ -49,7 +40,7 @@ export default function Graph({ data, month, width, height, topRange }: GraphPro
         const barX = xScale(bar[0]);
         const barY = 0;
         return <Bar
-          key={`bar-${months[month]}-${bar[0]}-${bar[1]}-${month}`}
+          key={`bar-${months[month]}-${bar[0]}-${bar[1]}`}
           x={barY}
           y={barX}
           width={barHeight}
