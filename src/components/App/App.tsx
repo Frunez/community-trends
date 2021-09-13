@@ -3,7 +3,7 @@ import GET_ALL_POSTS from './graphql/getAllPosts';
 import Loading from '../common/Loading';
 import ErrorMessage from '../common/ErrorMessage';
 import './App.css';
-// import Graph, { MonthlyTopTopics } from '../Graph/Graph';
+import Graph, { TopMonthlyTopics } from '../Graph/Graph';
 
 const YEAR_IN_EPOCH = 31536000;
 
@@ -37,10 +37,18 @@ function App() {
     return acc;
   }, [{ month: 0 }, { month: 1 }, { month: 2 }, { month: 3 }, { month: 4 }, { month: 5 }, { month: 6 }, { month: 7 }, { month: 8 }, { month: 9 }, { month: 10 }, { month: 11 }]);
 
+  const sortedData = newData.map((monthlyTopics: Month) => {
+    const sortedTopics = Object.entries(monthlyTopics).filter((x) => x[0] !== "month").sort(([, a], [, b]) => b - a);
+    let topThree = sortedTopics.splice(0, 3);
+    return topThree;
+  });
 
   return (
     <div className="App">
       <header className="App-header">
+        {sortedData.map((topMonthlyTopics: TopMonthlyTopics, index: number) =>
+          <Graph data={topMonthlyTopics} month={index} width={800} height={100} topRange={topRange} />
+        )}
       </header>
     </div>
   );
